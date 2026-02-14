@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Data
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# # Models (si son muy grandes)
+# models/*.pkl
+# models/*.h5
+
+# Env
+.env
+venv/
+venv*
