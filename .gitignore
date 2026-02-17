@@ -9,9 +9,9 @@ data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
-# # Models (si son muy grandes)
-# models/*.pkl
-# models/*.h5
+# Models (si son muy grandes)
+models/*.pkl
+models/*.h5
 
 # Env
 .env

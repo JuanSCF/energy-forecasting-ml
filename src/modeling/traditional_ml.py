@@ -2,8 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
-from lightgbm import LGBMRegressor
-import lightgbm as lgb
+import lightgbm as lgbm
 import joblib
 from pathlib import Path
 
@@ -36,9 +35,7 @@ def train_random_forest(X_train, y_train, X_val, y_val, save_path=None):
 
 
 def train_xgboost(X_train, y_train, X_val, y_val, save_path=None):
-    """
-    XGBoost optimizado para series temporales.
-    """
+    
     model = XGBRegressor(
         n_estimators=500,
         max_depth=8,
@@ -47,22 +44,22 @@ def train_xgboost(X_train, y_train, X_val, y_val, save_path=None):
         colsample_bytree=0.8,
         random_state=42,
         n_jobs=-1,
-        early_stopping_rounds=50,
-        eval_metric='rmse'
+        eval_metric='rmse',
+        early_stopping_rounds=30
     )
     
     print("Entrenando XGBoost...")
+    
     model.fit(
-        X_train, y_train,
+        X_train,
+        y_train,
         eval_set=[(X_val, y_val)],
-        early_stopping_rounds=50,
-        verbose=100
+        verbose=True
     )
     
-    print(f"Best iteration: {model.best_iteration}")
     
-    train_pred = model.predict(X_train, iteration_range=(0, model.best_iteration))
-    val_pred = model.predict(X_val, iteration_range=(0, model.best_iteration))
+    train_pred = model.predict(X_train)
+    val_pred = model.predict(X_val)
     
     if save_path:
         joblib.dump(model, save_path)
@@ -70,12 +67,11 @@ def train_xgboost(X_train, y_train, X_val, y_val, save_path=None):
     
     return model, train_pred, val_pred
 
-
 def train_lightgbm(X_train, y_train, X_val, y_val, save_path=None):
     """
     LightGBM - generalmente más rápido que XGBoost.
     """
-    model = LGBMRegressor(
+    model = lgbm.LGBMRegressor(
         n_estimators=500,
         max_depth=8,
         learning_rate=0.05,
@@ -90,13 +86,12 @@ def train_lightgbm(X_train, y_train, X_val, y_val, save_path=None):
     model.fit(
         X_train, y_train,
         eval_set=[(X_val, y_val)],
-        callbacks=[lgb.early_stopping(50), lgb.log_evaluation(100)]
+        callbacks=[lgbm.early_stopping(30), lgbm.log_evaluation(100)]
     )
+
     
-    print(f"Best iteration: {model.best_iteration}")
-    
-    train_pred = model.predict(X_train, iteration_range=(0, model.best_iteration))
-    val_pred = model.predict(X_val, iteration_range=(0, model.best_iteration))
+    train_pred = model.predict(X_train)
+    val_pred = model.predict(X_val)
     
     if save_path:
         joblib.dump(model, save_path)
