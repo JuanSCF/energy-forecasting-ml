@@ -1,0 +1,32 @@
+{
+  "forecast_horizon": 24,
+  "n_trials": 50,
+  "xgboost": {
+    "best_rmse": 2553.5923149359096,
+    "best_params": {
+      "max_depth": 9,
+      "learning_rate": 0.014625604972346083,
+      "subsample": 0.8132928301925089,
+      "colsample_bytree": 0.6818371369131653,
+      "min_child_weight": 2,
+      "reg_alpha": 0.0022448727423542117,
+      "reg_lambda": 0.40104491624891897,
+      "gamma": 2.968525770422906e-06
+    },
+    "best_iteration": 427
+  },
+  "lightgbm": {
+    "best_rmse": 2615.804278548128,
+    "best_params": {
+      "num_leaves": 77,
+      "max_depth": 8,
+      "learning_rate": 0.014337013059931701,
+      "subsample": 0.8994137857895497,
+      "colsample_bytree": 0.6215276578065398,
+      "min_child_samples": 17,
+      "reg_alpha": 0.053164451919894606,
+      "reg_lambda": 7.864555103553864e-05
+    },
+    "best_iteration": 434
+  }
+}

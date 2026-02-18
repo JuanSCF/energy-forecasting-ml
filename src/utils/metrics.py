@@ -11,12 +11,16 @@ def calculate_metrics(y_true, y_pred, set_name=""):
     - MAPE: Error porcentual absoluto medio
     - R²: Coeficiente de determinación
     """
+    mean_true = np.mean(y_true)
+    std_true = np.std(y_true)
     mae = mean_absolute_error(y_true, y_pred)
     rmse = np.sqrt(mean_squared_error(y_true, y_pred))
     mape = np.mean(np.abs((y_true - y_pred) / y_true)) * 100
     r2 = r2_score(y_true, y_pred)
     
     metrics = {
+        'Mean_True': mean_true,
+        'Std_True': std_true,
         'MAE': mae,
         'RMSE': rmse,
         'MAPE': mape,
@@ -31,6 +35,8 @@ def print_metrics(metrics):
     print(f"\n{'='*50}")
     print(f"Métricas - {metrics['set']}")
     print(f"{'='*50}")
+    print(f"Mean_True:  {metrics['Mean_True']:,.2f} MW")
+    print(f"Std_True: {metrics['Std_True']:,.2f} MW")
     print(f"MAE:  {metrics['MAE']:,.2f} MW")
     print(f"RMSE: {metrics['RMSE']:,.2f} MW")
     print(f"MAPE: {metrics['MAPE']:.2f}%")
